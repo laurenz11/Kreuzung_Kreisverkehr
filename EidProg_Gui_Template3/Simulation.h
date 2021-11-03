@@ -3,6 +3,7 @@
 #include "Functions.h"
 #include "Ampel.h"
 #include "GUI.h"
+#include "Time.h"
 
 class Simulation
 {
@@ -12,6 +13,7 @@ private:
 
 	GUI* gui;
 
+	sf::Clock clock;
 	//Autos
 
 	//Auto rot
@@ -45,11 +47,14 @@ public:
 	//funktionen
 	void run();
   void updateAllAmpel();
+  void deleteAutos();
 	void updateAuto();
 	void updateAmpel(int index);
 	void update();
 	void updateAfterStart();
 	void render();
 	void createAmpel();
+
+	void backToGUI(); //ermöglich es Zeit, Anzahl Fahrzeuge an das GUI zu übergeben und zu rendern
 
 };

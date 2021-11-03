@@ -84,8 +84,7 @@ const Direction Autos::getCurrentDir() const
 {
     return this->currentDirection;
 }
-
-
+  
 void Autos::update()
 {
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Autos.h"
+#include "GUI.h"
 
 class Functions
 {
@@ -228,7 +229,32 @@ public:
         }
     }
 
-    static bool deleteCars() { //Soll Objekte löschen aus dem Vektor autos löschen, wenn diese den Bildschirm verlassen
+    static void deleteCars(std::vector<Autos*> autos) { //Soll Objekte aus dem Vektor autos löschen, wenn diese den Bildschirm verlassen
+        for (int i = 0; i < autos.size(); i++) {
+            if (autos[i]->getPos().x < 0) {
+                autos.erase(autos.begin() + i);
+                //counterWest ++;
+            }
+
+            else if (autos[i]->getPos().x > 1000) {
+                autos.erase(autos.begin() + i);
+                //counterEast ++;
+            }
+
+            else if (autos[i]->getPos().y > 1000) {
+                autos.erase(autos.begin() + i);
+                //counterSouth ++;
+            }
+            else if (autos[i]->getPos().y < 0) {
+                autos.erase(autos.begin() + i);
+                //counterNorth ++;
+            }
+            else break;
+        }
+    }
+
+
+    static unsigned int backToGUI(unsigned int, unsigned int) {
 
     }
 };

@@ -34,7 +34,9 @@ void Simulation::initGUI()
 	gui = new GUI(this->window);
 }
 
-
+void Simulation::backToGUI() {
+	this->gui->takeElapsedTime(clock.getElapsedTime().asSeconds(), clock.getElapsedTime().asMilliseconds());
+}
 
 Simulation::Simulation()
 {
@@ -42,6 +44,7 @@ Simulation::Simulation()
 	this->initAuto();
 	this->initKreuzverkehr();
 	this->initGUI();
+	
 }
 
 
@@ -69,8 +72,36 @@ void Simulation::run()
 
 		if (startIsAllowed) {
 			this->updateAfterStart();
+			this->gui->getTimeFromEditBox();
+			if (clock.getElapsedTime().asSeconds() >= this->gui->getTimeFromEditBox()) {
+				startIsAllowed = false;
+			}
 		}
 		
+	}
+}
+
+void Simulation:: deleteAutos() {
+	for (int i = 0; i < autos.size(); i++) {
+		if (autos[i]->getPos().x < 0) {
+			autos.erase(autos.begin() + i);
+			//counterWest ++;
+		}
+
+		else if (autos[i]->getPos().x > 1000) {
+			autos.erase(autos.begin() + i);
+			//counterEast ++;
+		}
+
+		else if (autos[i]->getPos().y > 1000) {
+			autos.erase(autos.begin() + i);
+			//counterSouth ++;
+		}
+		else if (autos[i]->getPos().y < 0) {
+			autos.erase(autos.begin() + i);
+			//counterNorth ++;
+		}
+	
 	}
 }
 
@@ -139,13 +170,20 @@ void Simulation::update()
 	{
 		if (e.Event::type == sf::Event::Closed)
 			this->window->close();
-		if (e.Event::KeyPressed && e.Event::key.code == sf::Keyboard::Escape)
+		if (e.Event::KeyPressed && e.Event::key.code == sf::Keyboard::Escape) {
 			this->window->close();
+		}
 		this->gui->ClickedOnClose(window, e);
-		this->gui->ClickedOnStart(e, &startIsAllowed);
+
+		if(this->gui->ClickedOnStart(e, &startIsAllowed)) {
+			clock.restart();
+		}
 		this->gui->ClickedOnStop(e, &startIsAllowed);
 		this->gui->handleEvent(e);
 	}
+
+	this->gui->initTimeTextBox();
+	this->gui->StartStopSwitch(startIsAllowed);
 }
 
 void Simulation::updateAfterStart() {
@@ -156,6 +194,11 @@ void Simulation::updateAfterStart() {
 		car->update();
 
 	}
+
+	this->deleteAutos();
+
+
+	this->backToGUI();
 
 	this->spawnTimer++;
 	//Auto bewegen
@@ -196,6 +239,7 @@ void Simulation::updateAfterStart() {
 }
 
 void Simulation::render() {
+
 	this->window->clear(sf::Color(200, 200, 200));
 
 	this->gui->render(this->window);
