@@ -63,6 +63,7 @@ public:
 	int endCounterSouth;
 	int endCounterWest;
 
+
 	int startCounterNorth;
 	int startCounterEast;
 	int startCounterSouth;

@@ -64,11 +64,6 @@ Autos::~Autos()
 {
 }
 
-int Autos::stopNS()
-{
-    return 0;
-}
-
 const sf::Vector2f Autos::getPos() const
 {
     return this->sprite.getPosition();

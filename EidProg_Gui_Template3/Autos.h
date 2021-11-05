@@ -4,6 +4,7 @@
 #include<iostream>
 #include "CarProp.h"
 #include <math.h>
+
 using namespace std;
 class Autos
 {
@@ -22,7 +23,7 @@ public:
 	virtual ~Autos();
 	Direction currentDirection;
 	Direction originalDirection;
-	int stopNS();
+	
   //bool const stopWO;
 
 	const sf::Vector2f getPos() const;
