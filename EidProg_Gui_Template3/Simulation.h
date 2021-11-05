@@ -31,6 +31,7 @@ private:
 	void initWindow();
 	void initAuto();
 	void initKreuzverkehr();
+	void initCounter();
 	void renderWorld();
 
 	//GUI-Sachen erstellen
@@ -56,5 +57,15 @@ public:
 	void createAmpel();
 
 	void backToGUI(); //ermöglich es Zeit, Anzahl Fahrzeuge an das GUI zu übergeben und zu rendern
+
+	int endCounterNorth;
+	int endCounterEast;
+	int endCounterSouth;
+	int endCounterWest;
+
+	int startCounterNorth;
+	int startCounterEast;
+	int startCounterSouth;
+	int startCounterWest;
 
 };

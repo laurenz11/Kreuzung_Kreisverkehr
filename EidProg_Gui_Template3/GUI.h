@@ -6,6 +6,7 @@
 #include "string.h"
 #include "StringConverter.h"
 
+
 class GUI
 {
 
@@ -24,10 +25,22 @@ private:
 	tgui::Label::Ptr colon = tgui::Label::create();
 	tgui::TextBox::Ptr timeBox = tgui::TextBox::create();
 	tgui::Label::Ptr warning = tgui::Label::create();
+	tgui::TextBox::Ptr outcomeEast = tgui::TextBox::create();
+	tgui::TextBox::Ptr outcomeWest = tgui::TextBox::create();
+	tgui::TextBox::Ptr outcomeNorth = tgui::TextBox::create();
+	tgui::TextBox::Ptr outcomeSouth = tgui::TextBox::create();
+
+	tgui::TextBox::Ptr incomeEast = tgui::TextBox::create();
+	tgui::TextBox::Ptr incomeWest = tgui::TextBox::create();
+	tgui::TextBox::Ptr incomeNorth = tgui::TextBox::create();
+	tgui::TextBox::Ptr incomeSouth = tgui::TextBox::create();
+	tgui::Label::Ptr labelCounterOutcomeStart = tgui::Label::create();
+	tgui::Label::Ptr labelCounterOutcomeZiel = tgui::Label::create();
 
 
 
-	
+	std::string secondsString;
+	std::string msecondsString;
 
 
 public:
@@ -46,6 +59,10 @@ public:
 	void initLabelEditBox();
 	void loadFont();
 	void initWarning();
+	void initCounterOutcome();
+	void initLabelCounterOutcome();
+
+	void updateCounterOutcome(int endCounterNorth,int endCounterEast,int endCounterSouth,int endCounterWest,int startCounterNorth,int startCounterEast,int startCounterSouth,int startCounterWest);
 
 	void ClickedOnClose(sf::RenderWindow* window, sf::Event event);
 	bool ClickedOnStart(sf::Event e, bool *startIsAllowed);
@@ -64,6 +81,5 @@ public:
 
 	void StartStopSwitch(bool switcher);
 
-	std::string secondsString;
-	std::string msecondsString;
+	
 };

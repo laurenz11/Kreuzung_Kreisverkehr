@@ -29,6 +29,19 @@ void Simulation::renderWorld()
 	this->window->draw(this->Kreuzverkehr);
 }
 
+void Simulation::initCounter()
+{
+	endCounterNorth = 0;
+	endCounterEast = 0;
+	endCounterSouth = 0;
+	endCounterWest = 0;
+
+	startCounterEast = 0;
+	startCounterWest = 0;
+	startCounterNorth = 0;
+	startCounterSouth = 0;
+}
+
 void Simulation::initGUI()
 {
 	gui = new GUI(this->window);
@@ -44,7 +57,7 @@ Simulation::Simulation()
 	this->initAuto();
 	this->initKreuzverkehr();
 	this->initGUI();
-	
+	this->initCounter();
 }
 
 
@@ -66,7 +79,6 @@ void Simulation::run()
 	std::cout << "create ampel" << std::endl;
 	while (this->window->isOpen())
 	{
-		//Wie kannst du die Minutenvorgabe ins programm einbinden? + mache aus Stopp ein anhalten + zähle/lösche autos, die das Feld verlassen
 		this->update();
 		this->render();
 
@@ -85,21 +97,21 @@ void Simulation:: deleteAutos() {
 	for (int i = 0; i < autos.size(); i++) {
 		if (autos[i]->getPos().x < 0) {
 			autos.erase(autos.begin() + i);
-			//counterWest ++;
+			endCounterWest ++;
 		}
 
 		else if (autos[i]->getPos().x > 1000) {
 			autos.erase(autos.begin() + i);
-			//counterEast ++;
+			endCounterEast ++;
 		}
 
 		else if (autos[i]->getPos().y > 1000) {
 			autos.erase(autos.begin() + i);
-			//counterSouth ++;
+			endCounterSouth ++;
 		}
 		else if (autos[i]->getPos().y < 0) {
 			autos.erase(autos.begin() + i);
-			//counterNorth ++;
+			endCounterNorth ++;
 		}
 	
 	}
@@ -116,6 +128,7 @@ void Simulation::updateAuto()
 		if (Functions::checkSpawnNorth(autos) == 0) {
 			spawn = Direction::NORTH;
 			//std::cout << "spawn auf nord" << std::endl;
+			startCounterNorth++;
 		}
 		else { spawn = Direction::NOWHERE;  }
 	}
@@ -123,6 +136,7 @@ void Simulation::updateAuto()
 		if (Functions::checkSpawnEast(autos) == 0) {
 			spawn = Direction::EAST;
 			//std::cout << "spawn auf ost" << std::endl;
+			startCounterEast++;
 		}
 		else { spawn = Direction::NOWHERE;  }
 	}
@@ -130,6 +144,7 @@ void Simulation::updateAuto()
 		if (Functions::checkSpawnSouth(autos) == 0) {
 			spawn = Direction::SOUTH;
 			//std::cout << "spawn auf sued" << std::endl;
+			startCounterSouth++;
 		}
 		else { spawn = Direction::NOWHERE;  }
 	}
@@ -137,6 +152,7 @@ void Simulation::updateAuto()
 		if (Functions::checkSpawnWest(autos) == 0) {
 			spawn = Direction::WEST;
 			//std::cout << "spawn auf west" << std::endl;
+			startCounterWest++;
 		}
 		else { spawn = Direction::NOWHERE;  }
 	}
@@ -197,8 +213,9 @@ void Simulation::updateAfterStart() {
 
 	this->deleteAutos();
 
-
 	this->backToGUI();
+
+	
 
 	this->spawnTimer++;
 	//Auto bewegen
@@ -206,6 +223,8 @@ void Simulation::updateAfterStart() {
 		this->updateAuto();
 		//std::cout << "updateAuto\n";
 	}
+
+	this->gui->updateCounterOutcome(endCounterNorth, endCounterEast,  endCounterSouth, endCounterWest, startCounterNorth, startCounterEast, startCounterSouth, startCounterWest);
 
 	if (this->spawnTimer % 1000 == 0 ) {
 	  this->updateAllAmpel();
